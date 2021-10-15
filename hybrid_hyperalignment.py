@@ -241,7 +241,7 @@ class HybridHyperalignment():
         if self.get_all_mappers:
             return mappers_iter1, mappers_iter2, mappers_final
         return mappers_final
-        
+
         
         
         
@@ -249,7 +249,7 @@ class HybridHyperalignment():
     
      
     
-    `
+
     
     
     
