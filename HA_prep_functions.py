@@ -161,6 +161,8 @@ def get_searchlights(hemi,radius):
     savename = os.path.join(utils.basedir,'{R}mm_searchlights_{S}h.npy'.format(R=radius,S=hemi))
     try:
         return np.load(savename)
+    except:
+        pass  
     from mvpa2.misc.surfing.queryengine import SurfaceQueryEngine
     # get the data for jsut the first participant
     node_indices = get_node_indices(hemi)
