@@ -134,12 +134,24 @@ def get_foil_boundaries(timepoint_arr, tstart, window_size, buffer_size):
    
                    
     
-    
-    
-    
-    
-    
-    
-    
-    
+'''
+Plan for ISC of representation geometry:
+For each fold:
+(1) load data
+(2) separate by participant (29 subj, 443 times, 9000 vert)
+    corr --> 29 X 443 X 443 --> get upper triangle
+    --> calculate ISC --> 29X29 
+Then average across fold
+''' 
 
+def representational_geometry(data):
+    n_subj, n_timesteps, n_verts = data.shape
+    rdm = np.zeros((n_subj, n_timesteps*(n_timesteps-1)//2))
+    ind = np.triu_indices(n_timesteps, k=1)
+    for i in range(n_subj):
+        rdm_full = 1 - np.corrcoef(data[i].T)
+        rdm[i] = rdm_full[ind]
+    results = vertex_isc(np.reshape(rdm, (n_subj, n_timesteps*(n_timesteps-1)//2, 1)))
+    return results
+
+    
