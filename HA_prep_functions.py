@@ -18,6 +18,7 @@ from mvpa2.mappers.zscore import zscore
 import scipy.stats
 
 basedir = '/dartfs/rc/lab/D/DBIC/DBIC/f002d44/h2a'
+TOT_NODES = 10242
 MASKS = {'l': np.load(os.path.join(basedir, 'fsaverage_lh_mask.npy')), 'r': np.load(os.path.join(basedir, 'fsaverage_rh_mask.npy'))}
 
 
@@ -79,7 +80,7 @@ def compute_connectomes(datasets, queryengine, target_indices):
     mean_feature_measure = MeanFeatureMeasure()
 
     # compute means for aligning seed features
-    conn_means = [seed_means(MeanFeatureMeasure(), queryengine, ds, target_indices) for ds in datasets]
+    conn_means = [compute_seed_means(MeanFeatureMeasure(), queryengine, ds, target_indices) for ds in datasets]
 
     conn_targets = []
     for csm in conn_means:
