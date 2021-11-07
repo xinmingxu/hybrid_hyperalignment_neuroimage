@@ -10,6 +10,8 @@ import os, sys, itertools
 import numpy as np
 from scipy.sparse import load_npz, save_npz
 from mvpa2.base.hdf5 import h5save, h5load 
+from mvpa2.misc.surfing.queryengine import SurfaceQueryEngine
+from mvpa2.algorithms.searchlight_hyperalignment import SearchlightHyperalignment
 from scipy.stats import zscore
 import HA_prep_functions as prep
 import hybrid_hyperalignment as h2a
@@ -61,7 +63,10 @@ def run_benchmarks(fold_basedir):
     clf_results = searchlight_timepoint_clf(dss,window_size=5, buffer_size=10, NPROC=16)
     np.save(os.path.join(results_dir, 'time_segment_clf_accuracy.npy'), clf_results)
 
-            
+def add_node_indices(dss_train):
+    for ds in dss_train:
+        ds.fa['node_indices'] = np.arange(ds.shape[1], dtype=int)
+    return dss_train
 
 
 # perform leave-one-run-out cross validation on hyperalignment training
@@ -95,7 +100,7 @@ if __name__ == '__main__':
         print('training on runs {r}; testing on run {n}'.format(r=train, n=test))
         
         # separate testing and training data
-        dss_train = utils.get_train_data('b',train)
+        dss_train = utils.get_train_data('b', train)
         dss_test = utils.get_test_data('b', test)
         
         # get the node indices to run SL HA, both hemis
@@ -109,6 +114,7 @@ if __name__ == '__main__':
         if ha_type == 'cha':
             target_indices = prep.get_node_indices('b', surface_res=SPARSE_NODES)
             dss_train = prep.compute_connectomes(dss_train, qe, target_indices)
+            dss_train = add_node_indices(dss_train)
             ha = SearchlightHyperalignment(queryengine=qe, 
                                            nproc=N_JOBS, 
                                            nblocks=N_BLOCKS, 
@@ -119,6 +125,7 @@ if __name__ == '__main__':
         
         # run response-based searchlight hyperalignment
         elif ha_type == 'rha':
+            dss_train = add_node_indices(dss_train)
             outdir = os.path.join(utils.resphyper_dir, 'fold_{}/'.format(int(test[0])))
             ha = SearchlightHyperalignment(queryengine=qe, 
                                            nproc=N_JOBS, 
