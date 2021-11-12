@@ -17,9 +17,9 @@ import HA_prep_functions as prep
 import hybrid_hyperalignment as h2a
 from benchmarks import searchlight_timepoint_clf, vertex_isc, dense_connectivity_profile_isc
 
-os.environ['TMPDIR'] = '/dartfs-hpc/scratch/f002d44/temp'
-os.environ['TEMP'] = '/dartfs-hpc/scratch/f002d44/temp'
-os.environ['TMP'] = '/dartfs-hpc/scratch/f002d44/temp'
+os.environ['TMPDIR'] = '/dartfs-hpc/scratch/ps16421/temp'
+os.environ['TEMP'] = '/dartfs-hpc/scratch/ps16421/temp'
+os.environ['TMP'] = '/dartfs-hpc/scratch/ps16421/temp'
 N_LH_NODES_MASKED = 9372
 N_JOBS=16
 N_BLOCKS=128
@@ -41,7 +41,7 @@ def save_transformed_data(transformations, data, outdir):
         
     dss_lh,dss_rh=[],[]
     for T, d, sub in zip(transformations, data, utils.subjects):
-        aligned = np.nan_to_num(zscore((np.asmatrix(ds)*T).A, axis=0))
+        aligned = np.nan_to_num(zscore((np.asmatrix(d)*T).A, axis=0))
         ar, al = aligned[:,N_LH_NODES_MASKED:], aligned[:,:N_LH_NODES_MASKED]
         dss_rh.append(ar)
         dss_lh.append(al)
@@ -150,7 +150,7 @@ if __name__ == '__main__':
 
         save_transformations(Ts, os.path.join(outdir, 'transformations'))
         save_transformed_data(Ts, dss_test, os.path.join(outdir,'data') )
-        run_benchmarks(ha_type, test[0], outdir)
+        # run_benchmarks(ha_type, test[0], outdir)
         
        
 
