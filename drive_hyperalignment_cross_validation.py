@@ -41,7 +41,7 @@ def save_transformed_data(transformations, data, outdir):
         
     dss_lh,dss_rh=[],[]
     for T, d, sub in zip(transformations, data, utils.subjects):
-        aligned = np.nan_to_num(zscore((np.asmatrix(d)*T).A, axis=0))
+        aligned = np.nan_to_num(zscore((np.asmatrix(d)*T.proj).A, axis=0))
         ar, al = aligned[:,N_LH_NODES_MASKED:], aligned[:,:N_LH_NODES_MASKED]
         dss_rh.append(ar)
         dss_lh.append(al)
