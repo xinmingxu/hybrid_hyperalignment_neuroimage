@@ -16,8 +16,15 @@ from mvpa2.measures.searchlight import Searchlight
 from mvpa2.measures.base import Measure
 from mvpa2.mappers.zscore import zscore
 import scipy.stats
+import budapest_utils as utils  # for now
 
-basedir = '/dartfs/rc/lab/D/DBIC/DBIC/f002d44/h2a'
+
+mode = 'local'
+if mode=='local':
+	basedir = '/Users/xxming/Documents/psyc164'
+elif mode=='remote':
+	basedir = '/dartfs/rc/lab/D/DBIC/DBIC/f002d44/h2a'
+
 TOT_NODES = 10242
 MASKS = {'l': np.load(os.path.join(basedir, 'fsaverage_lh_mask.npy')), 'r': np.load(os.path.join(basedir, 'fsaverage_rh_mask.npy'))}
 
@@ -80,6 +87,7 @@ def compute_connectomes(datasets, queryengine, target_indices):
     mean_feature_measure = MeanFeatureMeasure()
 
     # compute means for aligning seed features
+    target_indices = np.concatenate((target_indices[0], target_indices[1]))
     conn_means = [compute_seed_means(MeanFeatureMeasure(), queryengine, ds, target_indices) for ds in datasets]
 
     conn_targets = []
