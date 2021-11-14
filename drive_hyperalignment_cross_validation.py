@@ -113,8 +113,8 @@ if __name__ == '__main__':
         # prepare the connectivity matrices and run HA if we are running CHA
         if ha_type == 'cha':
             target_indices = prep.get_node_indices('b', surface_res=SPARSE_NODES)
-            dss_train = prep.compute_connectomes(dss_train, qe, target_indices)
             dss_train = add_node_indices(dss_train)
+            dss_train = prep.compute_connectomes(dss_train, qe, target_indices)
             ha = SearchlightHyperalignment(queryengine=qe, 
                                            nproc=N_JOBS, 
                                            nblocks=N_BLOCKS, 
