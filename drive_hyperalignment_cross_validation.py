@@ -137,12 +137,12 @@ if __name__ == '__main__':
         # run hybrid hyperalignment
         elif ha_type == 'h2a':
             outdir = os.path.join(utils.h2a_dir, 'fold_{}/'.format(int(test[0])))
-            ha = h2a.HybridHyperalignment(ref_ds=data[0], 
+            ha = h2a.HybridHyperalignment(ref_ds=dss_train[0], 
                              mask_node_indices=node_indices,
                              seed_indices=node_indices,
                              target_indices=target_indices,
                              target_radius=utils.HYPERALIGNMENT_RADIUS,
-                             surface=surf)
+                             surface=surface)
             Ts = ha(dss_train)
         else:
             print('first argument must be one of h2a, cha, rha')
