@@ -179,7 +179,7 @@ def get_searchlights(hemi,radius):
     surf = get_freesurfer_surfaces(hemi)
     subj = utils.subjects[0]
     # get one run of one subject
-    ds = get_train_data(hemi, 1, num_subjects=1)[0]
+    ds = utils.get_train_data(hemi, 1, num_subjects=1)[0]
     ds.fa['node_indices'] = node_indices.copy()
     qe = SurfaceQueryEngine(surf, radius)
     qe.train(ds)
