@@ -97,7 +97,7 @@ def compute_connectomes(datasets, queryengine, target_indices):
 
     connectomes = []
     for target, ds in zip(conn_targets, datasets):
-        conn_mapper.train(target)
+        connectivity_mapper.train(target)
         connectome = connectivity_mapper.forward(ds)
         connectome.fa = ds.fa
         zscore(connectome, chunks_attr=None)
