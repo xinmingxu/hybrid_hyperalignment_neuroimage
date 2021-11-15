@@ -82,7 +82,7 @@ def compute_connectomes(datasets, queryengine, target_indices):
     corresponding searchlight centered on each a connectivity seed and a connectivity target.
     """
 
-    conn_metric = lambda x,y: np.dot(x.samples, y.samples)/x.nsamples
+    conn_metric = lambda x,y: np.dot(x.samples.T, y.samples)/x.nsamples
     connectivity_mapper = FxyMapper(conn_metric)
     mean_feature_measure = MeanFeatureMeasure()
 
