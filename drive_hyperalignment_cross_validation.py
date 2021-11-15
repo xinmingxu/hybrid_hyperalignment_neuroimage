@@ -101,6 +101,7 @@ if __name__ == '__main__':
         
         # separate testing and training data
         dss_train = utils.get_train_data('b', train)
+        dss_train = add_node_indices(dss_train)
         dss_test = utils.get_test_data('b', test)
         
         # get the node indices to run SL HA, both hemis
@@ -113,7 +114,6 @@ if __name__ == '__main__':
         # prepare the connectivity matrices and run HA if we are running CHA
         if ha_type == 'cha':
             target_indices = prep.get_node_indices('b', surface_res=SPARSE_NODES)
-            dss_train = add_node_indices(dss_train)
             dss_train = prep.compute_connectomes(dss_train, qe, target_indices)
             ha = SearchlightHyperalignment(queryengine=qe, 
                                            nproc=N_JOBS, 
@@ -125,7 +125,6 @@ if __name__ == '__main__':
         
         # run response-based searchlight hyperalignment
         elif ha_type == 'rha':
-            dss_train = add_node_indices(dss_train)
             outdir = os.path.join(utils.resphyper_dir, 'fold_{}/'.format(int(test[0])))
             ha = SearchlightHyperalignment(queryengine=qe, 
                                            nproc=N_JOBS, 
